@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "oklch(0.585 0.208 15.919)",
+      },
+      fontFamily: {
+        lausanne: ["var(--font-lausanne)", "sans-serif"],
       },
     },
   },

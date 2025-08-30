@@ -1,22 +1,46 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
+import localFont from "next/font/local";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const lausanne = localFont({
+    src: [
+        {
+            path: './fonts/lausanne/TWKLausanne-300.woff2',
+            weight: '300',
+            style: 'normal',
+        },
+        {
+            path: './fonts/lausanne/TWKLausanne-400.woff2',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: './fonts/lausanne/TWKLausanne-500.woff2',
+            weight: '500',
+            style: 'normal',
+        },
+        {
+            path: './fonts/lausanne/TWKLausanne-600.woff2',
+            weight: '600',
+            style: 'normal',
+        },
+        {
+            path: './fonts/lausanne/TWKLausanne-700.woff2',
+            weight: '700',
+            style: 'normal',
+        }
+    ],
+    variable: '--font-lausanne'
+})
 
 export const metadata: Metadata = {
   title: "Seth Villa",
   description: "S3th Villa Portfolio",
 };
+
+// ${geistSans.variable} ${geistMono.variable}
+
 
 export default function RootLayout({
   children,
@@ -27,12 +51,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <title>Seth&#39;s Portfolio</title>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`
+        ${lausanne.className}
+         antialiased`}
       >
-        {children}
+      {children}
       </body>
     </html>
   );

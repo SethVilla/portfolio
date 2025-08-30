@@ -1,25 +1,49 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import {HamburgerMenu} from "@/app/shared/navigation/HamburgerMenu";
-
-const ColorToggle = dynamic(
-    () => {
-        return import("./shared/toggles/ColorSchemeToggle")
-    },
-    { ssr: false }
-);
+// import { useEffect, useRef } from 'react';
+// import { gsap } from 'gsap';
+import TextSplash from './components/splash-screens/TextSplash';
+import { HomePage } from './components/home-page/HomePage';
+import { Space } from './components/svgs/Space';
+import { RocketSVG } from './components/svgs/Rocket';
+import { SpaceshipSVG } from './components/svgs/Spaceship';
 
 export default function Home() {
+
+  // useEffect(() => {
+  //   const canvas = document.querySelector('canvas');
+  //   const scene = new THREE.Scene();
+  //   const geometry = new THREE.BoxGeometry(1, 1, 1);
+  //   const material = new THREE.MeshBasicMaterial({ color: 'red', wireframe: true });
+  //   const mesh = new THREE.Mesh(geometry, material);
+  //   scene.add(mesh);
+  //   const sizes = {
+  //     width: window.innerWidth,
+  //     height: window.innerHeight
+  //   }
+  //   const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+  //   camera.position.z = 5;
+  //   scene.add(camera);
+
+  //   const renderer = new THREE.WebGLRenderer({
+  //     canvas,
+  //     antialias: true
+  //   });
+  //   renderer.setSize(sizes.width, sizes.height);
+  //   renderer.render(scene, camera);
+
+  //   console.log(THREE);
+  // }, []);
+
   return (
-    <div className="grid grid-cols-12 sm:h-full">
-        <div className="col-span-12"><HamburgerMenu/></div>
-        <div className="col-start-9 col-end-10 mt-4 text-right">
-            <ColorToggle />
-        </div>
-        <div className="col-start-4 col-end-10 m-auto h-full w-full">
-            <p className="text-primary text-4xl font-sans">Seth</p>
-        </div>
-    </div>
+    < >
+      <TextSplash 
+        title="Human" 
+        subtitle="Lost in their imagination"
+        duration={1000}
+        onComplete={() => console.log('Splash screen completed')}
+      />
+      <HomePage />
+    </>
   );
 }
