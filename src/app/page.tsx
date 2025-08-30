@@ -4,9 +4,6 @@
 // import { gsap } from 'gsap';
 import TextSplash from './components/splash-screens/TextSplash';
 import { HomePage } from './components/home-page/HomePage';
-import { Space } from './components/svgs/Space';
-import { RocketSVG } from './components/svgs/Rocket';
-import { SpaceshipSVG } from './components/svgs/Spaceship';
 
 export default function Home() {
 
