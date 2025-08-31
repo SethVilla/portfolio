@@ -100,10 +100,10 @@ export const useTextSplashAnimation = ({
       tl.to(earthRef.current, {
         scaleY: .75,
         y: "100vh",
-        duration: 4,
+        duration: 5,
         opacity: 0,
         ease: 'ease.inOut'
-      }, 1.25)
+      }, 2)
 
       // Hold text for specified duration
       tl.to(textRef.current, {
