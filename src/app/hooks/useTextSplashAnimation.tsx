@@ -22,6 +22,7 @@ export const useTextSplashAnimation = ({
   const overlayRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const earthRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!textRef.current || !overlayRef.current) return;
@@ -96,6 +97,14 @@ export const useTextSplashAnimation = ({
         }
       }
 
+      tl.to(earthRef.current, {
+        scaleY: .75,
+        y: "100vh",
+        duration: 4,
+        opacity: 0,
+        ease: 'ease.inOut'
+      }, 1.25)
+
       // Hold text for specified duration
       tl.to(textRef.current, {
         duration: duration / 1000
@@ -112,7 +121,7 @@ export const useTextSplashAnimation = ({
         y: '-100%',
         duration: 1.5,
         ease: 'power2.inOut'
-      }, '+=0.2');
+      }, '+=0.2')
       //  // Wait 0.2 seconds after text fade completes
 
     }, overlayRef);
@@ -120,5 +129,5 @@ export const useTextSplashAnimation = ({
     return () => ctx.revert();
   }, [title, subtitle, duration, onComplete]);
 
-  return { textRef, overlayRef, titleRef, subtitleRef };
+  return { textRef, overlayRef, titleRef, subtitleRef, earthRef };
 }; 

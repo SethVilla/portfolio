@@ -18,6 +18,7 @@ export const RocketSVG = ({ onScrambleComplete, ...props }: RocketSVGProps) => {
     gsap.set(wrapperRef.current, {
       visibility: "none",        // start hidden
       transformOrigin: "center",
+      scale: 0,
       // top: "50%",
       // left: "50%",
       // xPercent: -50,
@@ -31,9 +32,11 @@ export const RocketSVG = ({ onScrambleComplete, ...props }: RocketSVGProps) => {
     
     // 1. Wrapper appears with visibility and opacity
     mainTimeline.to(wrapperRef.current, {
+      y: "-12vh",
+      scale: 1,
       visibility: 'visible',
       opacity: 1,
-      duration: .1,
+      duration: 1,
       ease: "power1.inOut",
     }).to(fireRef.current, {
       duration: .15,
@@ -51,12 +54,12 @@ export const RocketSVG = ({ onScrambleComplete, ...props }: RocketSVGProps) => {
     // skewTimeline
     skewTimeline.to(rocketGroupRef.current, {
       duration: 0.8,
-      skewX: 4,
+      skewX: 8,
       ease: "power1.inOut",
     })
     .to(rocketGroupRef.current, {
       duration: 0.8,
-      skewX: -4,
+      skewX: -8,
       ease: "power1.inOut",
     })
     .to(rocketGroupRef.current, {
@@ -71,28 +74,42 @@ export const RocketSVG = ({ onScrambleComplete, ...props }: RocketSVGProps) => {
       duration: 3.5,
       y: "-120vh",
       ease: "power1.inOut",
-    }); // Start movement 4 seconds after rocket appears
+    });
     
-    // Add sine wave oscillation
+    // Add sine wave oscillation - 200px to 0 to -200px
     mainTimeline.to(wrapperRef.current, {
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      x: "+=200px",
+      duration: 1,
+      x: "200px",
       ease: "sine.inOut",
-    }, 1); // Start oscillation when movement begins
+    }, .9)
+    .to(wrapperRef.current, {
+      duration: 1,
+      x: "0px",
+      ease: "sine.inOut",
+    })
+    .to(wrapperRef.current, {
+      duration: 1,
+      x: "-200px",
+      ease: "sine.inOut",
+    })
+    .to(wrapperRef.current, {
+      duration: 1,
+      x: "0px",
+      ease: "sine.inOut",
+    })
+    .repeat(-1);
     
     return () => {
       gsap.killTweensOf(fireRef.current);
       gsap.killTweensOf(rocketGroupRef.current);
       gsap.killTweensOf(wrapperRef.current);
       mainTimeline.kill();
-      // skewTimeline.kill();
+      skewTimeline.kill();
     };
   }, [onScrambleComplete]);
 
   return (
-    <div ref={wrapperRef} className="z-[20]" style={{ visibility: 'hidden', position: 'absolute', top: '105%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+    <div ref={wrapperRef} className="z-[20]" style={{ visibility: 'hidden', position: 'absolute', top: '90%', left: '50%', transform: 'translate(-50%, -50%)' }}>
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 2500 2500"

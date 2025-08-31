@@ -10,6 +10,7 @@ export const SpaceshipSVG = ({ onScrambleComplete, ...props }: SpaceshipSVGProps
   const policeLightsRef = useRef<SVGPathElement>(null)
   const blueRingRef = useRef<SVGPathElement>(null)
   const windshieldRef = useRef<SVGPathElement>(null)
+  const clawsRef = useRef<SVGPathElement>(null)
   const spaceshipGroupRef = useRef<SVGGElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
@@ -19,7 +20,7 @@ export const SpaceshipSVG = ({ onScrambleComplete, ...props }: SpaceshipSVGProps
       return
     }
 
-    const randomTop = 105 + Math.random() * 12; // random between 105% and 115%
+    const randomTop = 95 + Math.random() * 12; // random between 105% and 115%
         
     // Initial state with randomized left position
     const randomLeft = Math.random() * 100; // Random value between 0 and 100
@@ -30,7 +31,8 @@ export const SpaceshipSVG = ({ onScrambleComplete, ...props }: SpaceshipSVGProps
       top: randomTop + "%", 
       left: `${randomLeft}%`, 
       xPercent: -50, 
-      yPercent: -50 
+      yPercent: -50,
+      scale: 0,
     });
     
     // Create main timeline for sequence
@@ -38,6 +40,8 @@ export const SpaceshipSVG = ({ onScrambleComplete, ...props }: SpaceshipSVGProps
     
     // 1. Wrapper appears with visibility and opacity
     mainTimeline.to(wrapperRef.current, {
+      duration: 2.5,
+      scale: 1,
       visibility: 'visible',
       opacity: 1,
       ease: "power1.inOut",
@@ -79,9 +83,19 @@ export const SpaceshipSVG = ({ onScrambleComplete, ...props }: SpaceshipSVGProps
       repeat: -1,
       onStart: () => console.log("Windshield animation started!")
     }, 0.5)
+
+    // Claws rotation animation
+    mainTimeline.to(clawsRef.current, {
+      rotation: -3,
+      duration: 2,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+      onStart: () => console.log("Claws animation started!")
+    }, 0.5)
     
     // 4. Movement animation with randomized path
-    const verticalDistance = 120; // Random distance between 100-140vh
+    const verticalDistance = 120 + Math.random() * 10; // Random distance between 100-140vh
     const movementDuration = 3; // Random duration between 8-13 seconds
     
 // Vertical movement
@@ -89,7 +103,7 @@ mainTimeline.to(wrapperRef.current, {
   duration: movementDuration,
   y: `-${verticalDistance}vh`,
   ease: "power1.inOut",
-});
+}, 1.8);
 
 // Randomized horizontal oscillation
 const oscillationDistance = Math.random() * 300 + 100; // 100-400px
@@ -108,14 +122,16 @@ gsap.to(wrapperRef.current, {
       gsap.killTweensOf(policeLightsRef.current);
       gsap.killTweensOf(blueRingRef.current);
       gsap.killTweensOf(windshieldRef.current);
+      gsap.killTweensOf(clawsRef.current);
       gsap.killTweensOf(wrapperRef.current);
+      gsap.killTweensOf(spaceshipGroupRef.current);
       mainTimeline.kill();
     };
 
   }, [onScrambleComplete])
 
   return (
-    <div ref={wrapperRef} className="z-[20]" style={{ visibility: 'hidden', position: 'absolute', top: '105%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+    <div ref={wrapperRef} className="z-[20]" style={{ visibility: 'hidden', position: 'absolute', top: '90%', left: '50%', transform: 'translate(-50%, -50%)' }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 535 535"
@@ -124,6 +140,10 @@ gsap.to(wrapperRef.current, {
         {...props}
       >
     <g ref={spaceshipGroupRef}>
+    {/* <path
+      fill="url(#a)"
+      d="M129.907 219.149 27.445 423.78s323.07 105.632 321.485 100.667c-1.585-4.964 42.678-218.773 42.678-218.773l-261.701-86.525Z"
+    /> */}
       {/* Main body */}
       <path
         fill="#6593A2"
@@ -170,8 +190,10 @@ gsap.to(wrapperRef.current, {
       d="M430.155 159.24c-9.345-73.675-80.017-124.03-154.61-127.617-46.767-2.253-90.53 17.855-118.022 53.4-8.928 11.556-20.568 25.323-11.723 40.217 10.554 17.772 35.461 29.995 53.775 38.715 48.227 22.945 101.752 37.547 155.069 42.219 20.233 1.752 47.184 3.671 65.29-6.3 15.185-8.343 12.056-26.157 10.221-40.634Z"
     />
     
+    
     {/* Claws */}
     <path
+      ref={clawsRef}
       fill="#93B1BB"
       d="m78.677 239.591 10.68 7.926c1.835 1.586 5.507 4.131 5.715 6.55.793 8.428.042 11.264-.459 17.731-.542 7.05-18.398-12.349-22.194-26.7-1.544-5.841 1.669-9.387 6.258-5.507Zm341.176 92.866-13.225 1.418c-2.378.417-6.842.793-8.26 2.754-4.923 6.842-5.758 9.678-8.595 15.477-3.128 6.383 22.153-1.335 32.666-11.764 4.297-4.172 3.338-8.928-2.586-7.885Zm-166.917-18.482c-1.377-2.753-5.465-4.755-7.718-5.715-4.422-1.919-9.804-2.086-14.268-.083-.918.417-1.627 1.168-1.877 2.127-1.335 5.257 2.378 20.651 9.136 20.442 3.087-.083 6.467-3.796 8.636-5.715 2.461-2.169 5.423-4.839 6.383-8.135.292-1.043.167-2.044-.292-2.921Z"
     />
